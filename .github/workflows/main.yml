@@ -2,8 +2,7 @@ name: Deploy Mentora-AI
 
 on:
 push:
-branches:
-- main
+branches: [main]
 workflow_dispatch:
 
 permissions:
@@ -15,22 +14,16 @@ jobs:
 build:
 runs-on: ubuntu-latest
 steps:
-- name: Checkout
-uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v4
+  - uses: actions/setup-node@v4
     with:
       node-version: 22
 
-  - name: Install dependencies
-    run: npm install
+  - run: npm install
+  - run: npm run build
 
-  - name: Build Vite app
-    run: npm run build
-
-  - name: Upload site
-    uses: actions/upload-pages-artifact@v3
+  - uses: actions/upload-pages-artifact@v3
     with:
       path: dist
 
@@ -40,5 +33,4 @@ runs-on: ubuntu-latest
 environment:
 name: github-pages
 steps:
-- name: Deploy to GitHub Pages
-uses: actions/deploy-pages@v4
+- uses: actions/deploy-pages@v4
